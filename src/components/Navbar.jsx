@@ -1,27 +1,41 @@
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, ShoppingBag } from "lucide-react";
-import { motion } from "framer-motion";
+import { Menu, X, ShoppingBag } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+const isHome = location.pathname === "/";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-    };
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 40);
+    setMobileOpen(false);
+  };
 
-    window.addEventListener("scroll", handleScroll);
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+useEffect(() => {
+  if (mobileOpen) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+}, [mobileOpen]);
+
+  const textColor = scrolled ? "text-[#2B2B2B]" : "text-white";
+  const hoverColor = scrolled ? "hover:text-[#B68C4A]" : "hover:text-[#E8D8BF]";
 
   return (
     <motion.nav
       initial={{ y: -80 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
         scrolled
           ? "bg-white/80 backdrop-blur-md shadow-sm"
           : "bg-transparent"
@@ -32,46 +46,85 @@ function Navbar() {
         {/* LOGO */}
         <Link
           to="/"
-          className="text-3xl text-white md:text-white font-semibold"
+          className={`text-3xl font-semibold transition ${textColor}`}
           style={{ fontFamily: "Playfair Display" }}
         >
           Luma
         </Link>
 
         {/* MENU */}
-        <div className="hidden md:flex items-center gap-10 uppercase tracking-widest text-sm text-white">
+        <div className={`hidden md:flex items-center gap-10 uppercase tracking-widest text-sm ${textColor}`}>
 
-          <Link to="/" className="hover:text-[#E8D8BF] transition">
+          <Link to="/" className={`${hoverColor} transition`}>
             Inicio
           </Link>
 
-          <Link to="/shop" className="hover:text-[#E8D8BF] transition">
+          <Link to="/shop" className={`${hoverColor} transition`}>
             Tienda
           </Link>
 
-          <Link to="/" className="hover:text-[#E8D8BF] transition">
+          <Link to="/" className={`${hoverColor} transition`}>
             Nosotros
           </Link>
 
-          <Link to="/" className="hover:text-[#E8D8BF] transition">
+          <Link to="/" className={`${hoverColor} transition`}>
             Contacto
           </Link>
 
         </div>
 
         {/* RIGHT */}
-        <div className="flex items-center gap-5 text-white">
+        <div className={`flex items-center gap-5 ${textColor}`}>
 
-          <button className="hover:text-[#E8D8BF] transition">
-            <ShoppingBag size={22} />
-          </button>
+          <button className={`${hoverColor} transition relative`}>
+  <ShoppingBag size={22} />
 
-          <button className="md:hidden hover:text-[#E8D8BF] transition">
-            <Menu size={24} />
-          </button>
+  {isHome && (
+    <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#B68C4A] rounded-full flex items-center justify-center">
+      <span className="text-white text-[10px] leading-none">
+        2
+      </span>
+    </span>
+  )}
+</button>
+
+          <button
+  onClick={() => setMobileOpen(!mobileOpen)}
+  className={`md:hidden transition ${textColor}`}
+>
+  {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+</button>
 
         </div>
       </div>
+      <AnimatePresence>
+  {mobileOpen && (
+    <motion.div
+  initial={{ opacity: 0, y: -20, scale: 0.98 }}
+  animate={{ opacity: 1, y: 0, scale: 1 }}
+  exit={{ opacity: 0, y: -10, scale: 0.98 }}
+  transition={{ duration: 0.25, ease: "easeOut" }}
+  className="md:hidden absolute top-24 left-0 w-full bg-white/95 backdrop-blur-md shadow-md"
+>
+      <div className="flex flex-col items-center gap-6 py-10 text-[#2B2B2B] uppercase tracking-widest text-sm">
+
+  {["Inicio", "Tienda", "Nosotros", "Contacto"].map((item, i) => (
+    <motion.div
+      key={item}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: i * 0.05 }}
+    >
+      <Link onClick={() => setMobileOpen(false)} to="/">
+        {item}
+      </Link>
+    </motion.div>
+  ))}
+
+</div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </motion.nav>
   );
 }

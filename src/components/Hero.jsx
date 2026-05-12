@@ -13,28 +13,27 @@ function Hero() {
       />
 
       {/* OVERLAY */}
-      <div className="absolute inset-0 bg-black/25"></div>
+      <div className="absolute inset-0 bg-black/30"></div>
 
       {/* CONTENT */}
       <div className="relative z-10 h-full flex items-center">
 
-        <div className="max-w-7xl mx-auto px-6 md:px-10 w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 w-full">
 
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="max-w-3xl"
-          >
+  initial={{ opacity: 0, y: 40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1.2, ease: "easeOut" }}
+>
 
             {/* SMALL TEXT */}
-            <p className="uppercase tracking-[0.3em] text-sm md:text-base text-[#E8D8BF] mb-6">
+            <p className="uppercase tracking-[0.25em] text-xs sm:text-sm md:text-base text-[#E8D8BF] mb-4 sm:mb-6">
               Mueblería de Diseño Premium
             </p>
 
             {/* TITLE */}
             <h1
-              className="text-5xl md:text-7xl leading-tight text-white mb-8"
+              className="text-3xl sm:text-5xl md:text-7xl leading-tight text-white mb-6 sm:mb-8"
               style={{ fontFamily: "Playfair Display" }}
             >
               Diseñamos muebles
@@ -45,26 +44,28 @@ function Hero() {
             </h1>
 
             {/* DESCRIPTION */}
-            <p className="text-lg md:text-xl text-gray-200 max-w-2xl leading-relaxed mb-10">
+            <p className="text-sm sm:text-lg md:text-xl text-gray-200 max-w-2xl leading-relaxed mb-8 sm:mb-10">
               Fabricación a medida, diseño moderno y calidad premium
               para hogares y oficinas contemporáneas.
             </p>
 
             {/* BUTTONS */}
-            <div className="flex flex-col sm:flex-row gap-5">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
 
-              <button className="bg-[#B68C4A] hover:opacity-90 transition duration-300 text-white px-8 py-4 rounded-full text-sm uppercase tracking-widest">
+              <button className="bg-[#B68C4A] hover:opacity-90 transition duration-300 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-xs sm:text-sm uppercase tracking-widest">
                 Ver catálogo
               </button>
 
-              <button className="border border-white/70 text-white px-8 py-4 rounded-full text-sm uppercase tracking-widest hover:bg-white hover:text-black transition duration-300">
+              <button className="border border-white/70 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-xs sm:text-sm uppercase tracking-widest hover:bg-white hover:text-black transition duration-300">
                 Solicitar presupuesto
               </button>
 
             </div>
 
           </motion.div>
+
         </div>
+
       </div>
     </section>
   );
