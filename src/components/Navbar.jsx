@@ -55,23 +55,23 @@ useEffect(() => {
         {/* MENU */}
         <div className={`hidden md:flex items-center gap-10 uppercase tracking-widest text-sm ${textColor}`}>
 
-          <Link to="/" className={`${hoverColor} transition`}>
-            Inicio
-          </Link>
+  <Link to="/">
+    Inicio
+  </Link>
 
-          <Link to="/shop" className={`${hoverColor} transition`}>
-            Tienda
-          </Link>
+  <Link to="/shop">
+    Tienda
+  </Link>
 
-          <Link to="/" className={`${hoverColor} transition`}>
-            Nosotros
-          </Link>
+  <Link to="/">
+    Nosotros
+  </Link>
 
-          <Link to="/" className={`${hoverColor} transition`}>
-            Contacto
-          </Link>
+  <Link to="/">
+    Contacto
+  </Link>
 
-        </div>
+</div>
 
         {/* RIGHT */}
         <div className={`flex items-center gap-5 ${textColor}`}>
@@ -108,18 +108,26 @@ useEffect(() => {
 >
       <div className="flex flex-col items-center gap-6 py-10 text-[#2B2B2B] uppercase tracking-widest text-sm">
 
-  {["Inicio", "Tienda", "Nosotros", "Contacto"].map((item, i) => (
-    <motion.div
-      key={item}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: i * 0.05 }}
+  {[
+  { label: "Inicio", to: "/" },
+  { label: "Tienda", to: "/shop" },
+  { label: "Nosotros", to: "/" },
+  { label: "Contacto", to: "/" },
+].map((item, i) => (
+  <motion.div
+    key={item.label}
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: i * 0.05 }}
+  >
+    <Link
+      to={item.to}
+      onClick={() => setMobileOpen(false)}
     >
-      <Link onClick={() => setMobileOpen(false)} to="/">
-        {item}
-      </Link>
-    </motion.div>
-  ))}
+      {item.label}
+    </Link>
+  </motion.div>
+))}
 
 </div>
     </motion.div>
